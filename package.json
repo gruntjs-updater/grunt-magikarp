@@ -1,74 +1,42 @@
 {
-  "name": "magikarp",
-  "description": "A Grunt-based NPM package version incrementation utility.",
-  "version": "0.1.0",
-  "homepage": "https://github.com/perry-mitchell/magikarp",
-  "author": {
-    "name": "Perry Mitchell",
-    "email": "perry@perrymitchell.net",
-    "url": "http://perrymitchell.net"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/perry-mitchell/magikarp.git"
-  },
-  "bugs": {
-    "url": "https://github.com/perry-mitchell/magikarp/issues"
-  },
-  "licenses": [
-    {
-      "type": "DO",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-DO"
-    },
-    {
-      "type": "WHAT",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-WHAT"
-    },
-    {
-      "type": "THE",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-THE"
-    },
-    {
-      "type": "FUCK",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-FUCK"
-    },
-    {
-      "type": "YOU",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-YOU"
-    },
-    {
-      "type": "WANT",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-WANT"
-    },
-    {
-      "type": "TO",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-TO"
-    },
-    {
-      "type": "Public",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-Public"
-    },
-    {
-      "type": "License",
-      "url": "https://github.com/perry-mitchell/magikarp/blob/master/LICENSE-License"
-    }
-  ],
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "scripts": {
-    "test": "grunt test"
-  },
-  "devDependencies": {
-    "grunt-contrib-jshint": "^0.9.2",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-nodeunit": "^0.3.3",
-    "grunt": "~0.4.5"
-  },
-  "peerDependencies": {
-    "grunt": "~0.4.5"
-  },
-  "keywords": [
-    "gruntplugin"
-  ]
+	"name": "grunt-magikarp",
+	"description": "A Grunt-based NPM package version incrementation utility.",
+	"version": "0.1.0",
+	"homepage": "https://github.com/perry-mitchell/grunt-magikarp",
+	"author": {
+		"name": "Perry Mitchell",
+		"email": "perry@perrymitchell.net",
+		"url": "http://perrymitchell.net"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/perry-mitchell/grunt-magikarp.git"
+	},
+	"bugs": {
+		"url": "https://github.com/perry-mitchell/grunt-magikarp/issues"
+	},
+	"licenses": [
+		{
+			"type": "DO WHAT THE FUCK YOU WANT TO",
+			"url": "https://github.com/perry-mitchell/grunt-magikarp/blob/master/LICENSE.md"
+		}
+	],
+	"engines": {
+		"node": ">= 0.8.0"
+	},
+	"scripts": {
+		"test": "grunt test"
+	},
+	"devDependencies": {
+		"grunt-contrib-jshint": "^0.9.2",
+		"grunt-contrib-clean": "^0.5.0",
+		"grunt-contrib-nodeunit": "^0.3.3",
+		"grunt": "~0.4.5"
+	},
+	"peerDependencies": {
+		"grunt": "~0.4.5"
+	},
+	"keywords": [
+		"gruntplugin"
+	]
 }
