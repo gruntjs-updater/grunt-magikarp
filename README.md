@@ -1,4 +1,4 @@
-# magikarp
+# grunt-magikarp
 
 > A Grunt-based NPM package version incrementation utility.
 
