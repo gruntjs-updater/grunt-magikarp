@@ -30,14 +30,19 @@ module.exports = function(grunt) {
 
 		// Configuration to be run (and then tested).
 		magikarp: {
-			default_options: {
-				targetDirectory: "",
+			build: {
+				targetDirectory: "."
+			},
+			minor: {
+				targetDirectory: ".",
 				options: {
+					increment: "minor"
 				}
 			},
-			custom_options: {
-				targetDirectory: "",
+			major: {
+				targetDirectory: ".",
 				options: {
+					increment: "major"
 				}
 			}
 		},
