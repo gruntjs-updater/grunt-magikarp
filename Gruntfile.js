@@ -1,9 +1,9 @@
 /*
- * magikarp
- * https://github.com/perry-mitchell/magikarp
+ * grunt-magikarp
+ * https://github.com/perry-mitchell/grunt-magikarp
  *
  * Copyright (c) 2014 Perry Mitchell
- * Licensed under the DO, WHAT, THE, FUCK, YOU, WANT, TO, Public, License licenses.
+ * Licensed under the DO WHAT THE FUCK YOU WANT TO Public License.
  */
 
 'use strict';
@@ -31,19 +31,13 @@ module.exports = function(grunt) {
 		// Configuration to be run (and then tested).
 		magikarp: {
 			default_options: {
+				targetDirectory: "",
 				options: {
-				},
-				files: {
-					'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
 				}
 			},
 			custom_options: {
+				targetDirectory: "",
 				options: {
-					separator: ': ',
-					punctuation: ' !!!'
-				},
-				files: {
-					'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
 				}
 			}
 		},
