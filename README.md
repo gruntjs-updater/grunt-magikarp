@@ -78,4 +78,4 @@ The directory containing the package.json file, usually an NPM project.
 
 | Version | Date       | Changes |
 |---------|------------|---------|
-| 0.1.0   | 2014-11-25 | Initial stable build |
+| 0.1.1   | 2014-11-25 | Initial stable build |
