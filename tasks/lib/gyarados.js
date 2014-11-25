@@ -5,6 +5,11 @@ module.exports = (function() {
 	var gyarados = {};
 	var grunt = require('grunt');
 
+	/**
+	 * Extract the version from the package.json file contents
+	 * @param contents {string} The file contents
+	 * @returns {string|boolean} Returns version on success, false on failure
+	 */
 	gyarados.extractVersion = function(contents) {
 		var exp = gyarados.getVersionRegex(),
 			match = exp.exec(contents);
@@ -14,6 +19,10 @@ module.exports = (function() {
 		return (match.length >= 2) ? match[1] : false;
 	};
 
+	/**
+	 * Get the default options structure
+	 * @returns {Object}
+	 */
 	gyarados.getDefaultOptions = function() {
 		return {
 			increment: "build",
@@ -24,10 +33,29 @@ module.exports = (function() {
 		};
 	};
 
+	/**
+	 * Get the version-extraction regular expression
+	 * @returns {RegExp} The regular expression
+	 */
 	gyarados.getVersionRegex = function() {
 		return /"version"\s*:\s*"(\d+\.\d+\.\d+)"/g;
 	};
 
+	/**
+	 * Increment a version string. Takes a version string, the index to increment, and
+	 * an array of index limits (build and minor).
+	 * @param version {string} The version string, in format 'x.y.z', where x, y and z
+	 * 		are all positive integers.
+	 * @param indexFromRight {integer} A positive integer between 0 and 2 (inclusive).
+	 *		This is the index to increment, from the right, so that 0 is 'build' and 2
+	 *		is 'major'.
+	 * @param limits {Array[2]} An array of limits (for the build and minor portions).
+	 *		Limiting a column sets a maximum value that can be kept there -
+	 *		Incrementing a column beyond the limit will increment the next column up.
+	 *		Setting a limit to 0 is equivalent to an unlimited amount (default). The
+	 *		array must always contain exactly 2 integers.
+	 * @returns {string} The incremented version in the format 'x.y.z'
+	 */
 	gyarados.incrementVersion = function(version, indexFromRight, limits) {
 		var parts = version.split('.');
 		parts.reverse();
@@ -49,6 +77,17 @@ module.exports = (function() {
 		return "" + parts[2] + "." + parts[1] + "." + parts[0];
 	};
 
+	/**
+	 * Process the package.json file and increment the version inside it, according
+	 * to a configuration.
+	 * @param packageJSONPath {string} The path to the package.json file
+	 * @returns {
+	 * 		{
+     *			old_version: string,
+     *			new_version: string
+	 *		}
+	 * }
+	 */
 	gyarados.processPackage = function(packageJSONPath, config) {
 		if (!grunt.file.exists(packageJSONPath)) {
 			throw new Error("package.json does not exist at path: " + packageJSONPath);
@@ -74,7 +113,7 @@ module.exports = (function() {
 			config.limits.build, config.limits.minor
 		]);
 
-		contents = gyarados.replaceVersion(contents, version, newVersion);
+		contents = gyarados.replaceVersion(contents, newVersion);
 		grunt.file.write(packageJSONPath, contents);
 
 		return {
@@ -83,11 +122,22 @@ module.exports = (function() {
 		};
 	};
 
-	gyarados.replaceVersion = function(contents, oldVersion, newVersion) {
+	/**
+	 * Replace the version inside a package.json file
+	 * @param contents {string} The package.json file contents
+	 * @param newVersion {string} The new version
+	 * @returns {string} The new contents, version replaced
+	 */
+	gyarados.replaceVersion = function(contents, newVersion) {
 		var exp = gyarados.getVersionRegex();
 		return contents.replace(exp, '"version":"' + newVersion + '"');
 	};
 
+	/**
+	 * Check if a version is valid
+	 * @param versionStr {string} A version string
+	 * @returns {boolean} True for valid ('x.y.z'), false otherwise
+	 */
 	gyarados.versionIsValid = function(versionStr) {
 		var exp = /^\d+\.\d+\.\d+$/;
 		return exp.test(versionStr);

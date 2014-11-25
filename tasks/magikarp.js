@@ -20,6 +20,8 @@ module.exports = function(grunt) {
 			packagePath = ((workingDirectory[workingDirectory.length - 1] === '/') ?
 				workingDirectory : workingDirectory + "/") + "package.json";
 
+		grunt.log.writeln("Incrementing package version: " + packagePath);
+
 		var result = gyarados.processPackage(packagePath, options);
 
 		grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
