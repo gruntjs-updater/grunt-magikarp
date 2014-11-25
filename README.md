@@ -2,6 +2,8 @@
 
 > A Grunt-based NPM package version incrementation utility.
 
+![Magikarp](http://perrymitchell.net/wp-content/uploads/2014/11/magikarp_small.png)
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 
@@ -20,70 +22,51 @@ grunt.loadNpmTasks('magikarp');
 ## The "magikarp" task
 
 ### Overview
-In your project's Gruntfile, add a section named `magikarp` to the data object passed into `grunt.initConfig()`.
+Magikarp takes some basic options (what to increment, limits etc.) as well as a target directory (that contains a package.json file).
 
 ```js
 grunt.initConfig({
-  magikarp: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+	magikarp: {
+		options: {
+			increment: "build",
+			limits: {
+				build: 0,
+				minor: 0
+			}
+		},
+		targetDirectory: "."
+	},
 });
 ```
 
 ### Options
 
-#### options.separator
+#### options.increment
 Type: `String`
-Default value: `',  '`
+Default value: `build`
 
-A string value that is used to do something with whatever.
+A string that determines what to increment. Can be 'build', 'minor' or 'major'.
 
-#### options.punctuation
+#### options.limits.build
+Type: `Integer`
+Default value: `0`
+
+The maximum value of the build column when incrementing. 0 is equivalent to unlimited.
+
+#### options.limits.minor
+Type: `Integer`
+Default value: `0`
+
+The maximum value of the minor column when incrementing. 0 is equivalent to unlimited.
+
+#### targetDirectory
 Type: `String`
-Default value: `'.'`
+Default value: `.`
 
-A string value that is used to do something else with whatever else.
-
-### Usage Examples
-
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  magikarp: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  magikarp: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+The directory containing the package.json file, usually an NPM project.
 
 ## Release History
-_(Nothing yet)_
+
+| Version | Date       | Changes |
+|---------|------------|---------|
+| 0.1.0   | 2014-11-25 | Initial stable build |
