@@ -1,7 +1,8 @@
 'use strict';
 
 var grunt = require('grunt'),
-	gyarados = require("../tasks/lib/gyarados.js");
+	gyarados = require("../tasks/lib/gyarados.js"),
+	git_helper = require("../tasks/lib/git_helper.js");
 
 /*
 	======== A Handy Little Nodeunit Reference ========
@@ -74,8 +75,35 @@ exports.magikarp = {
 	testBasicIncrement: function(test) {
 		writePackageJSON("1.1.1");
 		gyarados.processPackage("tmp/package.json", gyarados.getDefaultOptions());
-		var pkg = grunt.file.readJSON("tmp/package.json")
+		var pkg = grunt.file.readJSON("tmp/package.json");
 		test.equal(pkg.version, "1.1.2", "Should increment package version");
+		test.done();
+	},
+
+	testGetHighestVersion: function(test) {
+		var highest1 = gyarados.getHighestVersion("0.1.1", "0.2.2");
+		var highest2 = gyarados.getHighestVersion("1.1.1", "0.2.2");
+		var highest3 = gyarados.getHighestVersion("9.1.1", "10.0.1");
+		var highest4 = gyarados.getHighestVersion("1.1.1", "1.1.1");
+		test.equal(highest1, "0.2.2", "Highest version should be 0.2.2 (1)");
+		test.equal(highest2, "1.1.1", "Highest version should be 1.1.1 (2)");
+		test.equal(highest3, "10.0.1", "Highest version should be 10.0.1 (3)");
+		test.equal(highest4, "1.1.1", "Highest version should be 1.1.1 (4)");
+		test.done();
+	},
+
+	testGitGetHighestTag: function(test) {
+		var ops = gyarados.getDefaultOptions();
+		ops.gitTags = true;
+		var tags = [
+			"0.1.1",
+			"1.2.3",
+			"1.2.4",
+			"1.0.9",
+			"0.9.99"
+		];
+		var highest = git_helper.getHighestTagVersion(ops, tags);
+		test.equal(highest, "1.2.4", "Highest version should be picked");
 		test.done();
 	}
 

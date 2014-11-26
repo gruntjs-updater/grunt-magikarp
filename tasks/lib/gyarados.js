@@ -25,12 +25,42 @@ module.exports = (function() {
 	 */
 	gyarados.getDefaultOptions = function() {
 		return {
+			git: {
+				createTag: true,
+				projectDirectory: ".",
+				pullBeforeCheck: true,
+				pushAfterTag: true,
+				tags: {
+					filterRegex: '.+',
+					newPrefix: "",
+					newSuffix: ""
+				}
+			},
+			gitTags: false,
 			increment: "build",
 			limits: {
 				build: 0,
 				minor: 0
-			}
+			},
+			lastVersion: false
 		};
+	};
+
+	gyarados.getHighestVersion = function(versionA, versionB) {
+		var parts1 = versionA.split('.'),
+			parts2 = versionB.split('.');
+		for (var p = 0; p <= 2; p += 1) {
+			var num1 = parseInt(parts1[p], 10),
+				num2 = parseInt(parts2[p], 10);
+			if (num1 > num2) {
+				return versionA;
+			} else if (num1 < num2) {
+				return versionB;
+			}
+			// else continue
+		}
+		// both are the same
+		return versionA;
 	};
 
 	/**
@@ -94,13 +124,21 @@ module.exports = (function() {
 		}
 
 		var contents = grunt.file.read(packageJSONPath),
-			version = gyarados.extractVersion(contents);
+			version = gyarados.extractVersion(contents),
+			originalVersion = version;
 
 		if (version === false) {
 			throw new Error("Unable to extract version from manifest: " + packageJSONPath);
 		}
 		if (!gyarados.versionIsValid(version)) {
 			throw new Error("Package version is invalid: " + version);
+		}
+
+		if (config.lastVersion !== false) {			
+			version = gyarados.getHighestVersion(version, config.lastVersion);
+			if (version !== originalVersion) {
+				grunt.log.writeln("Git repo had higher version: " + version + " (package was at " + originalVersion + ")");
+			}
 		}
 
 		var indexFromRight = 0;

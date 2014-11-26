@@ -56,6 +56,7 @@ module.exports = function(grunt) {
 
 	// Actually load this plugin's task(s).
 	grunt.loadTasks('tasks');
+	grunt.loadTasks('node_modules/git/lib');
 
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');

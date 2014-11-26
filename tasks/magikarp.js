@@ -10,7 +10,8 @@
 
 module.exports = function(grunt) {
 
-	var gyarados = require("./lib/gyarados.js");
+	var gyarados = require("./lib/gyarados.js"),
+		git_helper = require("./lib/git_helper.js");
 
 	grunt.registerMultiTask('magikarp', 'A Grunt-based NPM package version incrementation utility.', function() {
 		// Merge task-specific and/or target-specific options with these defaults.
@@ -22,9 +23,25 @@ module.exports = function(grunt) {
 
 		grunt.log.writeln("Incrementing package version: " + packagePath);
 
-		var result = gyarados.processPackage(packagePath, options);
-
-		grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
+		if (options.gitTags === true) {
+			var done = this.async();
+			git_helper.getGitTagVersions(options, function(tags) {
+				if (tags.length > 0) {
+					var highestTag = git_helper.getHighestTagVersion(options, tags);
+					options.lastVersion = highestTag;
+					grunt.log.writeln("Highest tag-version in repo: " + highestTag);
+					var result = gyarados.processPackage(packagePath, options);
+					grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
+				} else {
+					var result = gyarados.processPackage(packagePath, options);
+					grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
+				}
+				(done)();
+			});
+		} else {
+			var result = gyarados.processPackage(packagePath, options);
+			grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
+		}
 	});
 
 };
