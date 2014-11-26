@@ -31,7 +31,10 @@ module.exports = function(grunt) {
 		// Configuration to be run (and then tested).
 		magikarp: {
 			build: {
-				targetDirectory: "."
+				targetDirectory: ".",
+				options: {
+					gitTags: true
+				}
 			},
 			minor: {
 				targetDirectory: ".",

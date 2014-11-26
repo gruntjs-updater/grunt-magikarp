@@ -46,6 +46,12 @@ module.exports = (function() {
 		};
 	};
 
+	/**
+	 * Get the highest version out of 2 versions
+	 * @param versionA {string} The first version (x.y.z)
+	 * @param versionB {string} The second version (x.y.z)
+	 * @returns {string} The highest of the 2 versions (x.y.z)
+	 */
 	gyarados.getHighestVersion = function(versionA, versionB) {
 		var parts1 = versionA.split('.'),
 			parts2 = versionB.split('.');

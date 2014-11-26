@@ -5,7 +5,18 @@ module.exports = (function() {
 	var helper = {};
 	var grunt = require('grunt'),
 		gyarados = require('./gyarados'),
+		exec = require('child_process').exec,
 		Repo  = require('git').Repo;
+
+	helper.fetchTags = function(options, callback) {
+		var command = "git fetch --tags";
+		exec(command, function(error, stdout, stderr) {
+			if (error !== null) {
+				throw new Error("Fetching git tags failed: " + error);
+			}
+			(callback)();
+		})
+	};
 
 	helper.getGitTagVersions = function(options, callback) {
 		var repo = new Repo(options.git.projectDirectory, {}, function(err, r) {
