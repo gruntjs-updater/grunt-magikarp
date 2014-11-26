@@ -8,6 +8,19 @@ module.exports = (function() {
 		exec = require('child_process').exec,
 		Repo  = require('git').Repo;
 
+	helper.checkStatusClear = function(options, callback) {
+		var command = "git status";
+		exec(command, function(error, stdout, stderr) {
+			if (error !== null) {
+				throw new Error("Checking git status failed: " + error);
+			}
+			if (stdout.indexOf("nothing to commit") < 0) {
+				throw new Error("Working directory is not clean - cannot continue");
+			}
+			(callback)();
+		});
+	};
+
 	helper.fetchTags = function(options, callback) {
 		var command = "git fetch --tags";
 		exec(command, function(error, stdout, stderr) {
