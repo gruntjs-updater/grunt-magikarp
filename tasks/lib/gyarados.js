@@ -29,12 +29,7 @@ module.exports = (function() {
 				createTag: true,
 				projectDirectory: ".",
 				pullBeforeCheck: true,
-				pushAfterTag: true,
-				tags: {
-					filterRegex: '.+',
-					newPrefix: "",
-					newSuffix: ""
-				}
+				pushAfterTag: true
 			},
 			gitTags: false,
 			increment: "build",
@@ -68,6 +63,7 @@ module.exports = (function() {
 		// both are the same
 		return versionA;
 	};
+
 
 	gyarados.getPackageValue = function(path, key) {
 		var data = grunt.file.readJSON(path);
