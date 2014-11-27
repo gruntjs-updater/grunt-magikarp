@@ -94,34 +94,6 @@ module.exports = function(grunt) {
 			}).fail(function(err) {
 				throw new Error("Failed versioning: " + err);
 			}).resolve(options);
-
-			/*var getTags = function() {
-				git_helper.getGitTagVersions(options, function(tags) {
-					if (tags.length > 0) {
-						var highestTag = git_helper.getHighestTagVersion(options, tags);
-						options.lastVersion = highestTag;
-						grunt.log.writeln("Highest tag-version in repo: " + highestTag);
-						var result = gyarados.processPackage(packagePath, options);
-						grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
-					} else {
-						var result = gyarados.processPackage(packagePath, options);
-						grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
-					}
-					(done)();
-				});
-			};
-
-			if (options.git.pullBeforeCheck === true) {
-				grunt.log.write("Fetching tags from repository...");
-				git_helper.fetchTags(options, function() {
-					grunt.log.ok();
-					grunt.log.write("Checking working directory status...");
-					git_helper.checkStatusClear(options, function() {
-						grunt.log.ok();
-
-					});
-				});
-			}*/
 		} else {
 			var result = gyarados.processPackage(packagePath, options);
 			grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
