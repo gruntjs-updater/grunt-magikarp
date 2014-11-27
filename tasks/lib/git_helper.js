@@ -55,7 +55,7 @@ module.exports = (function() {
 	};
 
 	helper.getHighestTagVersion = function(options, tags) {
-		var exp = new RegExp(options.git.tags.filterRegex);
+		var exp = new RegExp(options.git.tagFilterRegex);
 		return tags.sort(function(a, b) {
 			var aMatch = a.match(exp),
 				bMatch = b.match(exp);

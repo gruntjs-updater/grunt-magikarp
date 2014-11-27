@@ -29,7 +29,8 @@ module.exports = (function() {
 				createTag: true,
 				projectDirectory: ".",
 				pullBeforeCheck: true,
-				pushAfterTag: true
+				pushAfterTag: true,
+				tagFilterRegex: ".+"
 			},
 			gitTags: false,
 			increment: "build",

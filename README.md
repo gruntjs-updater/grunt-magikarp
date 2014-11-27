@@ -41,7 +41,8 @@ grunt.initConfig({
 				createTag: true,
 				projectDirectory: ".",
 				pullBeforeCheck: true,
-				pushAfterTag: true
+				pushAfterTag: true,
+				tagFilterRegex: ".+"
 			},
 			gitTags: false,
 			increment: "build",
@@ -135,6 +136,13 @@ Default value: `true`
 Git option to push the tags back to the server upon versioning completion
 
 Requires options.gitTags **and** options.git.createTag to be set to `true`.
+
+##### options.git.tagFilterRegex
+
+Type: `String`
+Default value: `.+`
+
+Regular expression used to select the version data from tags stored in the git repository. Used to filter unwanted data on tags.
 
 ## Release History
 
