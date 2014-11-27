@@ -22,7 +22,7 @@ module.exports = (function() {
 	};
 
 	helper.createTag = function(options, version, callback) {
-		var command = "git commit -a -m \"Version: " + version + "\" git tag -a " + version + " -m \"Version " + version + "\"";
+		var command = "git commit -a -m \"Version: " + version + "\"; git tag -a " + version + " -m \"Version " + version + "\"";
 		exec(command, function(error, stdout, stderr) {
 			if (error !== null) {
 				throw new Error("Creating/Commiting tag failed: " + error);
