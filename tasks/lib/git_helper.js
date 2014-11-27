@@ -82,7 +82,7 @@ module.exports = (function() {
 	};
 
 	helper.pushWithTags = function(options, callback) {
-		var command = "git push --tags";
+		var command = "git push; git push --tags";
 		exec(command, function(error, stdout, stderr) {
 			if (error !== null) {
 				throw new Error("Pushing git tags failed: " + error);

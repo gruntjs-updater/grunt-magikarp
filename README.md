@@ -148,6 +148,7 @@ Regular expression used to select the version data from tags stored in the git r
 
 | Version | Date       | Changes |
 |---------|------------|---------|
+| 0.1.5   | 2014-11-28 | Git push commits + tags |
 | 0.1.4   | 2014-11-27 | Minor bug fixes |
 | 0.1.2   | 2014-11-26 | Git tag support, Promises |
 | 0.1.1   | 2014-11-25 | Initial stable build |
