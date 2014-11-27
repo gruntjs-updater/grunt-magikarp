@@ -19,13 +19,13 @@ This plugin requires Grunt `~0.4.5`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install magikarp --save-dev
+npm install grunt-magikarp --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('magikarp');
+grunt.loadNpmTasks('grunt-magikarp');
 ```
 
 ## The "magikarp" task
@@ -148,5 +148,6 @@ Regular expression used to select the version data from tags stored in the git r
 
 | Version | Date       | Changes |
 |---------|------------|---------|
+| 0.1.3   | 2014-11-27 | Minor bug fixes |
 | 0.1.2   | 2014-11-26 | Git tag support, Promises |
 | 0.1.1   | 2014-11-25 | Initial stable build |
