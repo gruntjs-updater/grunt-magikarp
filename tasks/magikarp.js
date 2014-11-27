@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 			packagePath = ((workingDirectory[workingDirectory.length - 1] === '/') ?
 				workingDirectory : workingDirectory + "/") + "package.json";
 
-		var title = gyarados.getPackageValue(packagePath);
+		var title = gyarados.getPackageValue(packagePath, "name");
 
 		grunt.log.writeln("Incrementing package version on: " + packagePath);
 
