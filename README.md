@@ -7,6 +7,8 @@
 ## About
 Magikarp (besides being a Pokemon) is a grunt utility for incrementing package versions. It supports incrementing any column (build/minor/major), as well as maximum value limits on build and minor columns.
 
+Magikarp also supports git integration for convenience, and allows you to interact with tag versions in a remote repository.
+
 Why start a new plugin for something that has already done? I didn't like the way the others functioned, so here's my take on the task.
 
 [![Build Status](http://penkins.doomdns.org/buildStatus/icon?job=grunt-magikarp)](http://penkins.doomdns.org/job/grunt-magikarp/) [![npm version](https://badge.fury.io/js/grunt-magikarp.svg)](http://badge.fury.io/js/grunt-magikarp) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
