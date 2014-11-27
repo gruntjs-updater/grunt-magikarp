@@ -69,6 +69,11 @@ module.exports = (function() {
 		return versionA;
 	};
 
+	gyarados.getPackageValue = function(path, key) {
+		var data = grunt.file.readJSON(path);
+		return data[key] || "";
+	};
+
 	/**
 	 * Get the version-extraction regular expression
 	 * @returns {RegExp} The regular expression

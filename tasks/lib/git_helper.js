@@ -21,6 +21,16 @@ module.exports = (function() {
 		});
 	};
 
+	helper.createTag = function(options, version, callback) {
+		var command = "git tag -a " + version + " -m \"Version " + version + "\"";
+		exec(command, function(error, stdout, stderr) {
+			if (error !== null) {
+				throw new Error("Creating tag failed: " + error);
+			}
+			(callback)();
+		});
+	};
+
 	helper.fetchTags = function(options, callback) {
 		var command = "git fetch --tags";
 		exec(command, function(error, stdout, stderr) {
@@ -69,6 +79,16 @@ module.exports = (function() {
 			}
 			return 0;
 		})[0];
+	};
+
+	helper.pushWithTags = function(options, callback) {
+		var command = "git push --tags";
+		exec(command, function(error, stdout, stderr) {
+			if (error !== null) {
+				throw new Error("Pushing git tags failed: " + error);
+			}
+			(callback)();
+		})
 	};
 
 	return helper;

@@ -22,7 +22,9 @@ module.exports = function(grunt) {
 			packagePath = ((workingDirectory[workingDirectory.length - 1] === '/') ?
 				workingDirectory : workingDirectory + "/") + "package.json";
 
-		grunt.log.writeln("Incrementing package version: " + packagePath);
+		var title = gyarados.getPackageValue(packagePath);
+
+		grunt.log.writeln("Incrementing package version on: " + packagePath);
 
 		if (options.gitTags === true) {
 			var done = this.async();
@@ -50,28 +52,44 @@ module.exports = function(grunt) {
 			}).then(function(options) {
 				// Step 3: Process the package version
 				var _this = this;
+				grunt.log.write("Retrieving remote tags...");
 				git_helper.getGitTagVersions(options, function(tags) {
-					/*if (tags.length > 0) {
+					grunt.log.ok();
+					if (tags.length > 0) {
 						var highestTag = git_helper.getHighestTagVersion(options, tags);
 						options.lastVersion = highestTag;
 						grunt.log.writeln("Highest tag-version in repo: " + highestTag);
-						var result = gyarados.processPackage(packagePath, options);
-						grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
-					} else {
-						var result = gyarados.processPackage(packagePath, options);
-						grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
-					}*/
-					_this.resolve(options, "1.1.1");
+					}
+					var result = gyarados.processPackage(packagePath, options);
+					grunt.log.writeln("Version incremented: " + result.old_version + " -> " + result.new_version);
+					_this.resolve(options, result.new_version);
 				});
 			}).then(function(options, version) {
-				// Step 4: Commit and create the tag
-
-				this.resolve(options, version, true);
+				// Step 4: Create tag
+				if (options.git.createTag === true) {
+					var _this = this;
+					grunt.log.write("Tagging git version: " + version + "...");
+					git_helper.createTag(options, version, function() {
+						grunt.log.ok();
+						_this.resolve(options, version, true);
+					});
+				} else {
+					this.resolve(options, version, false);
+				}
 			}).then(function(options, version, created) {
 				// Step 5: Push with tags
-
+				if (options.git.pushAfterTag === true) {
+					var _this = this;
+					grunt.log.write("Pushing tags to remote...");
+					git_helper.pushWithTags(options, function() {
+						grunt.log.ok();
+						_this.resolve(version);
+					});
+				} else {
+					this.resolve(version);
+				}
 			}).done(function(version) {
-
+				grunt.log.writeln("Finished versioning project: " + title);
 				(done)();
 			}).fail(function(err) {
 				throw new Error("Failed versioning: " + err);
