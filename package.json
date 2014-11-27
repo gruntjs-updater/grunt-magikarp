@@ -27,7 +27,7 @@
 	"scripts": {
 		"test": "grunt test"
 	},
-	"devDependencies": {
+	"dependencies": {
 		"git": "0.1.5",
 		"grunt-contrib-jshint": "^0.9.2",
 		"grunt-contrib-clean": "^0.5.0",
