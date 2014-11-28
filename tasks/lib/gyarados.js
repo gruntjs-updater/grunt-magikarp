@@ -38,7 +38,8 @@ module.exports = (function() {
 				build: 0,
 				minor: 0
 			},
-			lastVersion: false
+			lastVersion: false,
+			zeroRight: true
 		};
 	};
 
@@ -65,7 +66,12 @@ module.exports = (function() {
 		return versionA;
 	};
 
-
+	/**
+	 * Get a value from the package.json file
+	 * @param path {string} The path to the package.json file
+	 * @param key {string} The key to get
+	 * @returns {string}
+	 */
 	gyarados.getPackageValue = function(path, key) {
 		var data = grunt.file.readJSON(path);
 		return data[key] || "";
@@ -92,15 +98,30 @@ module.exports = (function() {
 	 *		Incrementing a column beyond the limit will increment the next column up.
 	 *		Setting a limit to 0 is equivalent to an unlimited amount (default). The
 	 *		array must always contain exactly 2 integers.
+	 * @param zero {boolean=} Whether to zero the right side of incrementation or not.
+	 *		When zeroing, if the minor or major version is incremented, all less-
+	 *		significant version numbers will be zeroed (for instance, incrementing the
+	 *		minor version in '0.1.3' would produce '0.2.0' in this mode). Enabled by
+	 *		specifying 'true' here. Defaults to options.zeroRight.
 	 * @returns {string} The incremented version in the format 'x.y.z'
 	 */
-	gyarados.incrementVersion = function(version, indexFromRight, limits) {
+	gyarados.incrementVersion = function(version, indexFromRight, limits, zero) {
+		if ((zero === null) || (zero === undefined)) {
+			zero = gyarados.getDefaultOptions().zeroRight;
+		}
+
 		var parts = version.split('.');
 		parts.reverse();
 		for (var i = 0; i < parts.length; i += 1) {
 			parts[i] = parseInt(parts[i], 10);
 		}
 		parts[indexFromRight] += 1;
+
+		if (zero && (indexFromRight > 0)) {
+			for (var i = indexFromRight - 1; i >= 0; i -= 1) {
+				parts[i] = 0;
+			}
+		}
 
 		if ((limits[0] > 0) && (parts[0] > limits[0])) { // build
 			parts[0] = 0;
@@ -157,7 +178,7 @@ module.exports = (function() {
 		}
 		var newVersion = gyarados.incrementVersion(version, indexFromRight, [
 			config.limits.build, config.limits.minor
-		]);
+		], config.zeroRight);
 
 		contents = gyarados.replaceVersion(contents, newVersion);
 		grunt.file.write(packageJSONPath, contents);
