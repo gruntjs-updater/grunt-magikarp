@@ -52,7 +52,8 @@ grunt.initConfig({
 				build: 0,
 				minor: 0
 			},
-			lastVersion: false
+			lastVersion: false,
+			zeroRight: true
 		},
 		targetDirectory: "."
 	},
@@ -95,6 +96,13 @@ Type: `Integer`
 Default value: `0`
 
 The maximum value of the minor column when incrementing. 0 is equivalent to unlimited.
+
+#### options.zeroRight
+
+Type: `Boolean`
+Default value: `true`
+
+Whether or not to zero the right side of the incrementation process. When enabled, incrementing the _minor_ version of "1.2.3" would yield "1.3.0". If disabled, the same situation would produce "1.3.3".
 
 #### targetDirectory
 
@@ -150,7 +158,8 @@ Regular expression used to select the version data from tags stored in the git r
 
 | Version | Date       | Changes |
 |---------|------------|---------|
-| 0.1.5   | 2014-11-28 | Git push commits + tags |
+| 0.1.6   | 2014-11-28 | Version zeroing |
+| 0.1.5   | 2014-11-27 | Git push commits + tags |
 | 0.1.4   | 2014-11-27 | Minor bug fixes |
 | 0.1.2   | 2014-11-26 | Git tag support, Promises |
 | 0.1.1   | 2014-11-25 | Initial stable build |

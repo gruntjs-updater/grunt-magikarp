@@ -72,11 +72,45 @@ exports.magikarp = {
 		test.done();
 	},
 
+	testVersionIncrementZeroingEnabled: function(test) {
+		var newVer = gyarados.incrementVersion("5.6.7", 1, [0, 0], true);
+		test.equal(newVer, "5.7.0", "Should zero build version");
+		test.done();
+	},
+
+	testVersionIncrementZeroingDisabled: function(test) {
+		var newVer = gyarados.incrementVersion("5.6.7", 1, [0, 0], false);
+		test.equal(newVer, "5.7.7", "Should keep build version");
+		test.done();
+	},
+
 	testBasicIncrement: function(test) {
 		writePackageJSON("1.1.1");
 		gyarados.processPackage("tmp/package.json", gyarados.getDefaultOptions());
 		var pkg = grunt.file.readJSON("tmp/package.json");
 		test.equal(pkg.version, "1.1.2", "Should increment package version");
+		test.done();
+	},
+
+	testIncrementWithZeroing: function(test) {
+		writePackageJSON("9.9.9");
+		var ops = gyarados.getDefaultOptions();
+		ops.zeroRight = true;
+		ops.increment = "minor";
+		gyarados.processPackage("tmp/package.json", ops);
+		var pkg = grunt.file.readJSON("tmp/package.json");
+		test.equal(pkg.version, "9.10.0", "Should zero build version");
+		test.done();
+	},
+
+	testIncrementWithoutZeroing: function(test) {
+		writePackageJSON("9.9.9");
+		var ops = gyarados.getDefaultOptions();
+		ops.zeroRight = false;
+		ops.increment = "minor";
+		gyarados.processPackage("tmp/package.json", ops);
+		var pkg = grunt.file.readJSON("tmp/package.json");
+		test.equal(pkg.version, "9.10.9", "Should leave build version");
 		test.done();
 	},
 
