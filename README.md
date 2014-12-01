@@ -5,7 +5,7 @@
 ![Magikarp](http://perrymitchell.net/wp-content/uploads/2014/11/magikarp_small.png)
 
 ## About
-Magikarp (besides being a Pokemon) is a grunt utility for incrementing package versions. It supports incrementing any column (build/minor/major), as well as maximum value limits on build and minor columns.
+Magikarp (besides being a Pokemon) is a grunt utility for incrementing package versions. It supports incrementing any column (build/minor/major), as well as maximum value limits on build and minor columns. You can also use Magikarp to replace versions within other files (aside from package.json), so you can keep your versions synchronised throughout your projects.
 
 Magikarp also supports git integration for convenience, and allows you to interact with tag versions in a remote repository.
 
@@ -53,6 +53,7 @@ grunt.initConfig({
 				minor: 0
 			},
 			lastVersion: false,
+			replacements: [],
 			zeroRight: true
 		},
 		targetDirectory: "."
@@ -96,6 +97,27 @@ Type: `Integer`
 Default value: `0`
 
 The maximum value of the minor column when incrementing. 0 is equivalent to unlimited.
+
+#### options.replacements
+
+Type: `Array`
+Default value: `[]`
+
+An array of replacement objects, which take the following form:
+
+```
+{
+	path: string,
+	expression: string,
+	replacement: string
+}
+```
+
+Replacements provide a way of replacing version numbers in other files in a project.
+
+The `path` parameter specifies the path to the file to perform a replacement in. The `expression` parameter is a string containing a regular expression to match a context that will be used to insert the new version.
+
+The `replacement` parameter can contain group insertions (like `$1`), and **should** contain an insertion for the version `$ver`. You can also use regular regex replacements as specified on the `String.replace()` method - check it out on the [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter).
 
 #### options.zeroRight
 
@@ -158,6 +180,7 @@ Regular expression used to select the version data from tags stored in the git r
 
 | Version | Date       | Changes |
 |---------|------------|---------|
+| 0.2.0   | 2014-12-01 | Version replacements in files |
 | 0.1.6   | 2014-11-28 | Version zeroing |
 | 0.1.5   | 2014-11-27 | Git push commits + tags |
 | 0.1.4   | 2014-11-27 | Minor bug fixes |
