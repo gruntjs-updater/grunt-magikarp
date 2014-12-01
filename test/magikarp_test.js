@@ -114,6 +114,40 @@ exports.magikarp = {
 		test.done();
 	},
 
+	testReplaceTextInFile: function(test) {
+		var text = "/* This is some regular text file...\n" +
+			"it contains some text... */\n\n" +
+			"var item = 'some data -> ' + 'Ver:1.2.3' + ' -> more';\n" +
+			"// end\n";
+		grunt.file.write("tmp/test_file.js", text);
+		gyarados.replaceVersionInFile("tmp/test_file.js", '(Ver:)(\\d+\\.\\d+\\.\\d+)', "$110.9.8");
+		var content = grunt.file.read("tmp/test_file.js");
+		test.equal(content.indexOf("Ver:10.9.8") > 0, true, "File should contain new version text");
+		test.done();
+	},
+
+	testIncrementReplaceTextInFile: function(test) {
+		var text = "/* This is some regular text file...\n" +
+			"it contains some text... */\n\n" +
+			"var item = { 'title': 'test', 'version':'1.1.0' };\n" +
+			"// end\n";
+		grunt.file.write("tmp/test_file.js", text);
+		writePackageJSON("1.1.0");
+		var ops = gyarados.getDefaultOptions();
+		ops.increment = "build";
+		ops.replacements.push({
+			path: "tmp/test_file.js",
+			expression: '(\'version\':\')(\\d+\\.\\d+\\.\\d+)(\')',
+			replacement: '$1$ver$3'
+		});
+		gyarados.processPackage("tmp/package.json", ops);
+		var pkg = grunt.file.readJSON("tmp/package.json");
+		test.equal(pkg.version, "1.1.1", "Should increment version in package.json");
+		var content = grunt.file.read("tmp/test_file.js");
+		test.equal(content.indexOf("'version':'1.1.1'") > 0, true, "File should contain new version text");
+		test.done();
+	},
+
 	testGetHighestVersion: function(test) {
 		var highest1 = gyarados.getHighestVersion("0.1.1", "0.2.2");
 		var highest2 = gyarados.getHighestVersion("1.1.1", "0.2.2");

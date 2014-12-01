@@ -39,6 +39,7 @@ module.exports = (function() {
 				minor: 0
 			},
 			lastVersion: false,
+			replacements: [],
 			zeroRight: true
 		};
 	};
@@ -183,6 +184,17 @@ module.exports = (function() {
 		contents = gyarados.replaceVersion(contents, newVersion);
 		grunt.file.write(packageJSONPath, contents);
 
+		// execute replacements
+		var numRep = config.replacements.length;
+		if (numRep > 0) {
+			for (var r = 0; r < numRep; r += 1) {
+				var rep = config.replacements[r],
+					verRep = /\$ver/i,
+					newText = rep.replacement.replace(verRep, newVersion);
+				gyarados.replaceVersionInFile(rep.path, rep.expression, newText);
+			}
+		}
+
 		return {
 			old_version: version,
 			new_version: newVersion
@@ -198,6 +210,19 @@ module.exports = (function() {
 	gyarados.replaceVersion = function(contents, newVersion) {
 		var exp = gyarados.getVersionRegex();
 		return contents.replace(exp, '"version":"' + newVersion + '"');
+	};
+
+	/**
+	 * Replace a version string inside a file
+	 * @param filePath {string} The path to the file
+	 * @param regex {string} The regular expression to use for replacing
+	 * @param replacement {string} The replacement text
+	 */
+	gyarados.replaceVersionInFile = function(filePath, regex, replacement) {
+		var contents = grunt.file.read(filePath),
+			exp = new RegExp(regex);
+		contents = contents.replace(exp, replacement);
+		grunt.file.write(filePath, contents);
 	};
 
 	/**
