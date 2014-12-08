@@ -1,7 +1,7 @@
 {
 	"name": "grunt-magikarp",
 	"description": "A Grunt-based NPM package version incrementation utility.",
-	"version":"0.2.4",
+	"version":"0.2.5",
 	"homepage": "https://github.com/perry-mitchell/grunt-magikarp",
 	"author": {
 		"name": "Perry Mitchell",
