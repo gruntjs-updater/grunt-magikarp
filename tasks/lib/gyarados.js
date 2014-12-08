@@ -167,13 +167,37 @@ module.exports = (function() {
 	};
 
 	/**
+	 * Merge two or more objects
+	 */
+	gyarados.mergeObjects = function merge() {
+		var destination = {},
+			sources = [].slice.call(arguments, 0);
+		sources.forEach(function(source) {
+			var prop;
+			for (prop in source) {
+				if (prop in destination && Array.isArray(destination[prop])) {					
+					// Concat Arrays
+					destination[prop] = destination[prop].concat(source[prop]);					
+				} else if (prop in destination && typeof destination[prop] === "object") {					
+					// Merge Objects
+					destination[prop] = merge(destination[prop], source[prop]);					
+				} else {					
+					// Set new values
+					destination[prop] = source[prop];					
+				}
+			}
+		});
+		return destination;
+	};
+
+	/**
 	 * Process the package.json file and increment the version inside it, according
 	 * to a configuration.
 	 * @param packageJSONPath {string} The path to the package.json file
 	 * @returns {
 	 * 		{
-     *			old_version: string,
-     *			new_version: string
+	 *			old_version: string,
+	 *			new_version: string
 	 *		}
 	 * }
 	 */

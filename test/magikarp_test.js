@@ -181,6 +181,34 @@ exports.magikarp = {
 		test.done();
 	},
 
+	testMergeObjects: function(test) {
+		var obj1 = {
+				a: 5,
+				b: 6
+			},
+			obj2 = {
+				b: 4,
+				c: 99
+			};
+		var output = gyarados.mergeObjects(obj1, obj2);
+		test.deepEqual(output, {
+			a: 5,
+			b: 4,
+			c: 99
+		}, "Object should have merged form");
+		test.equal(output.b, 4, "Merged property should take value of later object");
+		test.done();
+	},
+
+	testVersionIsValid: function(test) {
+		var validVersions = ["0.1.2", "1.2.44", "123.0.33", "0.0.0", "999.999.999"];
+		for (var i = 0; i < validVersions.length; i += 1) {
+			test.equal(gyarados.versionIsValid(validVersions[i]), true, "Version " + validVersions[i] + " should be valid");
+		}
+		test.expect(validVersions.length);
+		test.done();
+	},
+
 	testGitFilterTags: function(test) {
 		var tags = ["1.2.3", "1.2.4", "1.5.7", "2.2.3"],
 			exp = /1\.2\.\d+/,

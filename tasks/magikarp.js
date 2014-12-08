@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('magikarp', 'A Grunt-based NPM package version incrementation utility.', function() {
 		// Merge task-specific and/or target-specific options with these defaults.
-		var options = this.options(gyarados.getDefaultOptions());
+		var options = gyarados.mergeObjects(gyarados.getDefaultOptions(), this.options());
 
 		var workingDirectory = this.targetDirectory || ".",
 			packagePath = ((workingDirectory[workingDirectory.length - 1] === '/') ?
@@ -29,6 +29,8 @@ module.exports = function(grunt) {
 
 		if (options.gitTags === true) {
 			var done = this.async();
+
+			grunt.log.writeln("Git enabled @ " + options.git.projectDirectory);
 
 			var gitChain = commit.JSCommitment.commit(function(options) {
 				// Step 1: Check for fetching tags
