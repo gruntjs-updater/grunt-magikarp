@@ -9,7 +9,7 @@ module.exports = (function() {
 		Repo  = require('git').Repo;
 
 	helper.checkStatusClear = function(options, callback) {
-		var command = "git status";
+		var command = "(cd " + options.git.projectDirectory + "; git status)";
 		exec(command, function(error, stdout, stderr) {
 			if (error !== null) {
 				throw new Error("Checking git status failed: " + error);
@@ -22,7 +22,8 @@ module.exports = (function() {
 	};
 
 	helper.createTag = function(options, version, callback) {
-		var command = "git commit -a -m \"Version: " + version + "\"; git tag -a " + version + " -m \"Version " + version + "\"";
+		var command = "(cd " + options.git.projectDirectory + "; git commit -a -m \"Version: " + version +
+			"\"; git tag -a " + version + " -m \"Version " + version + "\")";
 		exec(command, function(error, stdout, stderr) {
 			if (error !== null) {
 				throw new Error("Creating/Commiting tag failed: " + error);
@@ -32,7 +33,7 @@ module.exports = (function() {
 	};
 
 	helper.fetchTags = function(options, callback) {
-		var command = "git fetch --tags";
+		var command = "(cd " + options.git.projectDirectory + "; git fetch --tags)";
 		exec(command, function(error, stdout, stderr) {
 			if (error !== null) {
 				throw new Error("Fetching git tags failed: " + error);
@@ -95,7 +96,7 @@ module.exports = (function() {
 	};
 
 	helper.pushWithTags = function(options, callback) {
-		var command = "git push; git push --tags";
+		var command = "(cd " + options.git.projectDirectory + "; git push; git push --tags)";
 		exec(command, function(error, stdout, stderr) {
 			if (error !== null) {
 				throw new Error("Pushing git tags failed: " + error);

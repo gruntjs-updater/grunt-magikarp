@@ -194,7 +194,7 @@ Regular expression used to select the version data from tags stored in the git r
 
 | Version | Date       | Changes |
 |---------|------------|---------|
-| 0.2.3   | 2014-12-08 | Bugfixes |
+| 0.2.4   | 2014-12-08 | Bugfixes |
 | 0.2.2   | 2014-12-08 | Git version column incrementation limiting |
 | 0.2.0   | 2014-12-01 | Version replacements in files |
 | 0.1.6   | 2014-11-28 | Version zeroing |
