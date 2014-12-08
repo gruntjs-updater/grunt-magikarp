@@ -26,7 +26,7 @@ module.exports = (function() {
 	gyarados.getDefaultOptions = function() {
 		return {
 			git: {
-				checkOnlyIncrementColumn: false,
+				checkOnlyIncrementColumn: true,
 				createTag: true,
 				projectDirectory: ".",
 				pullBeforeCheck: true,
