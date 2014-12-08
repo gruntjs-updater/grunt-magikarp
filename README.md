@@ -135,6 +135,19 @@ The directory containing the package.json file, usually an NPM project.
 
 #### options.git
 
+##### options.git.checkOnlyIncrementColumn
+
+Type: `Boolean`
+Default value: `false`
+
+Switch on checking for just a column range when reading git tags. For instance, if you want to make a hotfix from version 0.1.2 to 0.1.3, but a feature with version 0.2.1 already exists, this option is for you.
+
+In that scenario:
+ * Without 'checkOnlyIncrementColumn': 0.1.2 (increment:build) -> 0.2.2
+ * With 'checkOnlyIncrementColumn': 0.1.2 (increment:build) -> 0.1.3 (intended)
+
+This is useful to keep enabled if you or your team peforms hotfixes using version tags.
+
 ##### options.git.createTag
 
 Type: `Boolean`
@@ -180,6 +193,7 @@ Regular expression used to select the version data from tags stored in the git r
 
 | Version | Date       | Changes |
 |---------|------------|---------|
+| 0.2.1   | 2014-12-08 | Git version column incrementation limiting |
 | 0.2.0   | 2014-12-01 | Version replacements in files |
 | 0.1.6   | 2014-11-28 | Version zeroing |
 | 0.1.5   | 2014-11-27 | Git push commits + tags |

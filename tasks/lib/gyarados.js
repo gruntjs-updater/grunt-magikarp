@@ -26,6 +26,7 @@ module.exports = (function() {
 	gyarados.getDefaultOptions = function() {
 		return {
 			git: {
+				checkOnlyIncrementColumn: false,
 				createTag: true,
 				projectDirectory: ".",
 				pullBeforeCheck: true,
@@ -76,6 +77,34 @@ module.exports = (function() {
 	gyarados.getPackageValue = function(path, key) {
 		var data = grunt.file.readJSON(path);
 		return data[key] || "";
+	};
+
+	/**
+	 * Get the version from a package.json file
+	 * @param path {string} The path to the package.json file
+	 * @returns {string}
+	 */
+	gyarados.getPackageVersion = function(path) {
+		var contents = grunt.file.read(path),
+			version = gyarados.extractVersion(contents);
+		return version;
+	}
+
+	/**
+	 * Get the regular expression for a version range on a 'column' (build/minor)
+	 * @param version {string} The base version to form the range from
+	 * @param col {string} The context/column (build/minor)
+	 * @returns {RegExp}
+	 */
+	gyarados.getRegexForVersionRange = function(version, col) {
+		var parts = version.split('.');
+		if (col === "build") {
+			return new RegExp(parts[0] + '\\.' + parts[1] + '\\.' + '\\d+');
+		} else if (col === "minor") {
+			return new RegExp(parts[0] + '\\.' + '\\d+' + '\\.' + '\\d+');
+		}
+		// return default if no other
+		return gyarados.getVersionRegex();
 	};
 
 	/**

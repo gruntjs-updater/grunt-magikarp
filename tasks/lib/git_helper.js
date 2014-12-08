@@ -41,6 +41,12 @@ module.exports = (function() {
 		})
 	};
 
+	helper.filterTags = function(tags, regex) {
+		return tags.filter(function(tag) {
+			return regex.test(tag);
+		});
+	}
+
 	helper.getGitTagVersions = function(options, callback) {
 		var repo = new Repo(options.git.projectDirectory, {}, function(err, r) {
 			r.tags(function(err, tags) {
@@ -56,6 +62,13 @@ module.exports = (function() {
 
 	helper.getHighestTagVersion = function(options, tags) {
 		var exp = new RegExp(options.git.tagFilterRegex);
+		tags = helper.filterTags(tags, exp);
+
+		if ((options.lastVersion !== false) && (options.git.checkOnlyIncrementColumn === true)) {
+			var rexp = gyarados.getRegexForVersionRange(options.lastVersion, options.increment);
+			tags = helper.filterTags(tags, rexp);
+		}
+
 		return tags.sort(function(a, b) {
 			var aMatch = a.match(exp),
 				bMatch = b.match(exp);

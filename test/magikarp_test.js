@@ -160,6 +160,38 @@ exports.magikarp = {
 		test.done();
 	},
 
+	testGetPackageVersion: function(test) {
+		writePackageJSON("12.342.49");
+		var pver = gyarados.getPackageVersion("tmp/package.json");
+		test.equal(pver, "12.342.49");
+		test.done();
+	},
+
+	testGetRegexForVersionRangeBuild: function(test) {
+		var ver = "1.2.3",
+			exp = gyarados.getRegexForVersionRange(ver, "build");
+		test.equal(exp.toString(), "/1\\.2\\.\\d+/", "Build regex should have dynamic build number");
+		test.done();
+	},
+
+	testGetRegexForVersionRangeMinor: function(test) {
+		var ver = "2.3.4",
+			exp = gyarados.getRegexForVersionRange(ver, "minor");
+		test.equal(exp.toString(), "/2\\.\\d+\\.\\d+/", "Minor regex should have dynamic minor & build numbers");
+		test.done();
+	},
+
+	testGitFilterTags: function(test) {
+		var tags = ["1.2.3", "1.2.4", "1.5.7", "2.2.3"],
+			exp = /1\.2\.\d+/,
+			filtered = git_helper.filterTags(tags, exp);
+		test.equal(filtered.indexOf("1.2.3") >= 0, true, "1.2.3 is included");
+		test.equal(filtered.indexOf("1.2.4") >= 0, true, "1.2.4 is included");
+		test.equal(filtered.indexOf("1.5.7") >= 0, false, "1.2.3 is NOT included");
+		test.equal(filtered.indexOf("2.2.3") >= 0, false, "2.2.3 is NOT included");
+		test.done();
+	},
+
 	testGitGetHighestTag: function(test) {
 		var ops = gyarados.getDefaultOptions();
 		ops.gitTags = true;
@@ -172,6 +204,45 @@ exports.magikarp = {
 		];
 		var highest = git_helper.getHighestTagVersion(ops, tags);
 		test.equal(highest, "1.2.4", "Highest version should be picked");
+		test.done();
+	},
+
+	testGitGetHighestTagWithVersionRangeBuild: function(test) {
+		var ops = gyarados.getDefaultOptions();
+		ops.gitTags = true;
+		ops.increment = "build";
+		ops.git.checkOnlyIncrementColumn = true;
+		ops.lastVersion = "0.1.1";
+		var tags = [
+			"0.1.1",
+			"1.2.3",
+			"1.2.4",
+			"1.0.9",
+			"0.1.9",
+			"0.9.99"
+		];
+		var highest = git_helper.getHighestTagVersion(ops, tags);
+		test.equal(highest, "0.1.9", "Highest version should be picked when on build-range");
+		test.done();
+	},
+
+	testGitGetHighestTagWithVersionRangeMinor: function(test) {
+		var ops = gyarados.getDefaultOptions();
+		ops.gitTags = true;
+		ops.increment = "minor";
+		ops.git.checkOnlyIncrementColumn = true;
+		ops.lastVersion = "1.2.3";
+		var tags = [
+			"0.1.1",
+			"1.2.3",
+			"1.2.4",
+			"1.4.99",
+			"2.1.2",
+			"1.0.9",
+			"0.1.9"
+		];
+		var highest = git_helper.getHighestTagVersion(ops, tags);
+		test.equal(highest, "1.4.99", "Highest version should be picked when on minor-range");
 		test.done();
 	}
 

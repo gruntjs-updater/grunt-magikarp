@@ -22,7 +22,8 @@ module.exports = function(grunt) {
 			packagePath = ((workingDirectory[workingDirectory.length - 1] === '/') ?
 				workingDirectory : workingDirectory + "/") + "package.json";
 
-		var title = gyarados.getPackageValue(packagePath, "name");
+		var title = gyarados.getPackageValue(packagePath, "name"),
+			baseVersion = gyarados.getPackageVersion(packagePath);
 
 		grunt.log.writeln("Incrementing package version on: " + packagePath);
 
@@ -56,6 +57,8 @@ module.exports = function(grunt) {
 				git_helper.getGitTagVersions(options, function(tags) {
 					grunt.log.ok();
 					if (tags.length > 0) {
+						// Set last version for highest filter
+						options.lastVersion = baseVersion;
 						var highestTag = git_helper.getHighestTagVersion(options, tags);
 						options.lastVersion = highestTag;
 						grunt.log.writeln("Highest tag-version in repo: " + highestTag);
