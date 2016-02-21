@@ -1,7 +1,7 @@
 {
 	"name": "grunt-magikarp",
 	"description": "A Grunt-based NPM package version incrementation utility.",
-	"version":"0.2.5",
+	"version": "0.2.5",
 	"homepage": "https://github.com/perry-mitchell/grunt-magikarp",
 	"author": {
 		"name": "Perry Mitchell",
@@ -36,7 +36,7 @@
 		"js-commitment": "0.2.2"
 	},
 	"peerDependencies": {
-		"grunt": "~0.4.5"
+		"grunt": ">=0.4.0"
 	},
 	"keywords": [
 		"gruntplugin"
